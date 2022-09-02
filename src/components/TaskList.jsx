@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const TaskList = ({groupTask, setTaskSelected, taskSelected}) => {
+export const TaskList = ({groupTask, setTaskSelected, taskSelected, setGroupTask}) => {
 
   //console.log(groupTask.length);
   //console.log(groupTask);
@@ -10,15 +10,22 @@ export const TaskList = ({groupTask, setTaskSelected, taskSelected}) => {
     setTaskSelected(idTask.tasks);
   }
 
-  console.log(groupTask);
+  //console.log(groupTask);
 
   const deleteTask = (idTask) => {
-    console.log('Tarea a eliminar es: ', idTask);
+    //console.log('Tarea a eliminar es: ', idTask);
+    const taskDeleted = groupTask.filter(task => task.id !== idTask)
+    //console.log('Nuevas tareas', taskDeleted);
+    setGroupTask(taskDeleted);
+    
   }
 
   return (
     <>
-      <h1 className='text-2xl mt-5'>Sin tareas pendiente</h1>
+      {groupTask.length == 0 ? <h1 className='text-2xl mt-5'>Sin tareas pendientes</h1> : ''}
+      <div className='overflow-auto py-10 px-5 mt-3'>
+
+      
       {groupTask.length != 0 ?
 
           groupTask.map((tasks, index) => {
@@ -38,6 +45,7 @@ export const TaskList = ({groupTask, setTaskSelected, taskSelected}) => {
         
         : ''
       }
+      </div>
       
     </>
     

@@ -43,7 +43,7 @@ export const Form = ({groupTask, setGroupTask, taskSelected, setTaskSelected}) =
 
 
   const handleOnChange = (event) => {
-    //console.log(taskInfo);
+ 
     setTaskInfo({
       ...taskInfo,
       [event.target.name] : event.target.value,
@@ -53,38 +53,48 @@ export const Form = ({groupTask, setGroupTask, taskSelected, setTaskSelected}) =
 
   const saveTask = (event) => {
     event.preventDefault();
-    console.log('boton save');
+
+
     if([taskInfo.title, taskInfo.date, taskInfo.description].includes(''))
     {
-        //console.log('Error -');
         setIsError(true);
     }
     else{
 
       if(editingTask)
       {
-        const updateTask = groupTask.map((task) =>{
+        console.log('editing');
+        const taskUpdated = groupTask.map((task) =>{
           if(task.id === taskSelected.id)
           {
             task.title = taskInfo.title
+            task.date = taskInfo.date
+            task.description = taskInfo.description
           }
           return task
           
         })
-        console.log(updateTask);
-        //console.log(updateTask);
-        //setTaskInfo(updateTask);
-        setGroupTask(updateTask);
-        //console.log(taskInfo);
-        //console.log(groupTask);
-        //setTaskSelected({});*/
+        console.log(taskUpdated);
+ 
+        setGroupTask(taskUpdated);
+        setEditingTask(false);
+        setTaskInfo({
+          'id':'',
+          'title':'',
+          'date':'',
+          'description':''
+        })
+        setTaskSelected({});
+ 
       }
       else{
 
-        //console.log('Datos OKI');
+        
+        
         setIsError(false);
-        //setGroupTask(taskInfo);
+        
         setGroupTask([...groupTask,taskInfo]);
+        
         
         setTaskInfo({
           'id':'',
@@ -102,7 +112,7 @@ export const Form = ({groupTask, setGroupTask, taskSelected, setTaskSelected}) =
 
   return (
 
-    <div className='container mx-auto flex justify-center mt-10'>
+    <div className='w-full flex justify-center mt-10'>
         <form onSubmit={saveTask} className='bg-slate-50 shadow-md rounded-2xl py-10 px-5 w-2/4 max-w-lg' action="">
             <label className='block font-bold'>Titulo</label>
             <input 
